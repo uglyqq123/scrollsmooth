@@ -1,15 +1,34 @@
 import React from 'react'
-import './detail.css'
+import Modal from '../common/modal'
+import './detail.scss'
 
 export default class TangShi extends React.Component {
-    state = {
-        showNavList: false,
-        navList: [],
+    constructor(props) {
+        super(props)
+        this.state = {
+            showNavList: false,
+            navList: [],
+            modalShow: false,
+        }
+        this.observer = new IntersectionObserver(
+            (entry) => {
+                // console.log(entry)
+                entry.forEach(item => {
+                    console.log(item)
+                    if (item.intersectionRatio > 0.7) {
+                        console.log('come in')
+                    }
+                })
+            },
+        )
     }
 
     componentDidMount() {
         const navList = this.getNavList()
         this.setState({ navList })
+        const eles = this.getElementByTag('li', 'data-type', 'anchor')
+        this.observer.observe(eles[eles.length - 1])
+        
     }
 
     getNavList = () => {
@@ -61,11 +80,11 @@ export default class TangShi extends React.Component {
     }
 
     render() {
-        const { showNavList, navList } = this.state
+        const { showNavList, navList, modalShow } = this.state
         return (
             <div>
                 <ul className="ul-main">
-                    <li data-name="题目" data-type="anchor">咏鹅</li>
+                    <li data-name="题目" data-type="anchor" onClick={() => this.setState({ modalShow: true })}>咏鹅</li>
                     <li data-name="作者" data-type="anchor">骆宾王</li>
                     <li data-name="第一句" data-type="anchor">鹅鹅鹅</li>
                     <li data-name="第二句" data-type="anchor">曲项向天歌</li>
@@ -84,6 +103,7 @@ export default class TangShi extends React.Component {
                             navList.map(item => <li key={item.href} data-href={item.href} onClick={this.scrollToItem}>{item.title}</li>)
                     }
                 </ul>
+                <Modal visible={modalShow} onCancel={() => this.setState({ modalShow: false })} />
             </div>
         )
     }
