@@ -93,6 +93,7 @@ export default class TangShi extends React.Component {
                     <li data-name="余音" data-type="anchor">~拨清波~</li>
                     <li data-name="绕梁" data-type="anchor">~清波~</li>
                     <li data-name="梁" data-type="anchor">~~~波~~~</li>
+                    <li data-name="梁" data-type="anchor">~~~波~~~</li>
                 </ul>
                 <ul className="ul-anchor">
                     {
